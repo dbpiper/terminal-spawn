@@ -1,0 +1,12 @@
+os: linux
+dist: xenial
+language: node_js
+node_js:
+  - "lts/*"
+cache:
+  # cache for ci, since it deletes node_modules
+  directories:
+    - "$HOME/.npm"
+install:
+  - npm ci
+script: npm run preCommit
