@@ -56,7 +56,7 @@
     "build": "gulp build",
     "lint": "gulp lint",
     "preCommit": "gulp preCommit",
-    "prepublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "types": "lib/index.d.ts",
   "version": "1.0.0"
