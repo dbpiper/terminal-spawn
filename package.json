@@ -1,7 +1,7 @@
 {
   "author": "David Piper <david.piper@mailfence.com>",
   "bugs": {
-    "url": "https://github.com/dbpiper/spawn-terminal/issues"
+    "url": "https://github.com/dbpiper/terminal-spawn/issues"
   },
   "description": "A library which wraps Node's child_process.spawn to provide easy use of terminal commands.",
   "devDependencies": {
@@ -31,7 +31,7 @@
     "lib/index.js",
     "lib/index.d.ts"
   ],
-  "homepage": "https://github.com/dbpiper/spawn-terminal#readme",
+  "homepage": "https://github.com/dbpiper/terminal-spawn#readme",
   "husky": {
     "hooks": {
       "commit-msg": "npx commitlint -E HUSKY_GIT_PARAMS",
@@ -41,14 +41,16 @@
   },
   "keywords": [
     "spawn",
-    "terminal"
+    "terminal",
+    "run",
+    "command"
   ],
   "license": "MIT",
   "main": "lib/index.js",
-  "name": "spawn-terminal",
+  "name": "terminal-spawn",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dbpiper/spawn-terminal.git"
+    "url": "git+https://github.com/dbpiper/terminal-spawn.git"
   },
   "scripts": {
     "build": "gulp build",

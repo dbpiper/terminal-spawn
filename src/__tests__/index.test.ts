@@ -1,8 +1,8 @@
-import spawnTerminal from '../index';
+import terminalSpawn from '../index';
 
-describe('spawn-terminal tests', () => {
+describe('terminal-spawn tests', () => {
   test('runs command and give exit code of zero', async () => {
-    const process = spawnTerminal('echo "hello world!"');
+    const process = terminalSpawn('echo "hello world!"');
     const processPromise = new Promise((resolve, _reject) => {
       process.on('exit', code => {
         const numCode = (code as unknown) as PromiseLike<number>;
@@ -15,7 +15,7 @@ describe('spawn-terminal tests', () => {
 
   test('runs command and gives non-zero exit code', async () => {
     // the shell doesn't have a "blarg" command
-    const process = spawnTerminal('blarg "hello world!"');
+    const process = terminalSpawn('blarg "hello world!"');
     const processPromise = new Promise((resolve, _reject) => {
       process.on('exit', code => {
         const numCode = (code as unknown) as PromiseLike<number>;

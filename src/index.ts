@@ -8,7 +8,7 @@ const spawnWithStringParser = (shellCommand: string) => {
   };
 };
 
-const spawnTerminal = (
+const terminalSpawn = (
   command: string,
   options: SpawnOptions = {
     stdio: 'inherit',
@@ -19,4 +19,4 @@ const spawnTerminal = (
   return spawn(commandObj.command, commandObj.args, options);
 };
 
-export default spawnTerminal;
+export default terminalSpawn;
