@@ -14,5 +14,8 @@
         "jsxPragma": "React"
       }
     ]
+  ],
+  "ignore": [
+    "**/__tests__/*"
   ]
 }
