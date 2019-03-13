@@ -32,7 +32,7 @@ terminalSpawn('echo "hello world!"');
 
 return type: [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_child_process)
 
-Executes the command inside of Node.js as if it were run in the shell. Since it is just a lightweight wrapper around
+Executes the command inside of Node.js as if it were run in the shell.
 
 ### command
 
