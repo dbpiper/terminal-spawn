@@ -30,7 +30,7 @@ describe('terminal-spawn tests', () => {
 
   describe('serial tests', () => {
     test('runs commands serially and give exit code of zero', async () => {
-      const process = terminalSpawn(['cd ~/usr/src', 'echo "hello world!"']);
+      const process = terminalSpawn(['echo "hello "', 'echo "world!"']);
       const processPromise = new Promise((resolve, _reject) => {
         process.on('exit', code => {
           const numCode = (code as unknown) as object;
@@ -58,10 +58,7 @@ describe('terminal-spawn tests', () => {
     });
 
     test('runs commands in parallel and give exit code of zero', async () => {
-      const process = terminalSpawnParallel([
-        'cd ~/usr/src',
-        'echo "hello world!"',
-      ]);
+      const process = terminalSpawnParallel(['echo "hello "', 'echo "world!"']);
       const processPromise = new Promise((resolve, _reject) => {
         process.on('exit', code => {
           const numCode = (code as unknown) as object;
