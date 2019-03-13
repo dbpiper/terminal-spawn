@@ -32,19 +32,36 @@ terminalSpawn('echo "hello world!"');
 
 return type: [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_child_process)
 
-Executes the command inside of Node.js as if it were run in the shell. Since it is just a lightweight wrapper around
+Executes the command inside of Node.js as if it were run in the shell. If
+command is an array then the commands will be run in series/sequentially.
+
+### terminalSpawnParallel(command, options)
+
+return type: [`ChildProcess`](https://nodejs.org/api/child_process.html#child_process_child_process)
+
+Executes the command inside of Node.js as if it were run in the shell, if
+command is an array then the commands will be run in parallel rather than
+in series/sequentially.
 
 ### command
 
-type: `string`
+type: `string` or `string[]`
 
-The command will be run using the shell and the output will be redirected to the shell. This means that it will essentially function as if you ran it directly in a shell such as `/bin/sh`, but inside of Node.js.
+The command will be run using the shell and the output will be redirected to the shell.
+This means that it will essentially function as if you ran it directly in a
+shell such as `/bin/sh`, but inside of Node.js.
+
+If command is an array then all of the commands in the array will be executed:
+either in series or in parallel, depending on the function. The default is to
+executed them in series, as if they were called with `&&` between them.
 
 ### options
 
 type: `SpawnOptions`
 
-These are the options to pass to [`child_process.spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) they are the same as the [`spawn` options](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options) and are passed directly to [`child_process.spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options).
+These are the options to pass to [`child_process.spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options)
+they are the same as the [`spawn` options](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options)
+and are passed directly to [`child_process.spawn`](https://nodejs.org/api/child_process.html#child_process_child_process_spawn_command_args_options).
 
 By default they are:
 
@@ -55,7 +72,9 @@ By default they are:
   }
 ```
 
-Which allows `terminalSpawn` to act like a terminal. However, if you wanted the nice argument passing of terminalSpawn, e.g. `'echo "hello world!"` without **actually** using the terminal, then you could disable this using `options`.
+Which allows `terminalSpawn` to act like a terminal. However, if you wanted the
+nice argument passing of terminalSpawn, e.g. `'echo "hello world!"` without
+**actually** using the terminal, then you could disable this using `options`.
 
 ### License
 
