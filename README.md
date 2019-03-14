@@ -19,7 +19,7 @@ commands very easily. Since it returns a `Promise<SpawnSyncReturns<Buffer>>`,
 see the [`gulpfile.babel.ts`](https://github.com/dbpiper/terminal-spawn/blob/master/gulpfile.babel.ts)
 in this project for an example.
 
-The project uses [TypeScript][typescript] and thus has types for it exported,
+This project uses [TypeScript][typescript] and thus has types for it exported,
 so it works well in that environment. However, it also works just fine with
 vanilla JavaScript.
 
@@ -108,9 +108,20 @@ By default they are:
   }
 ```
 
+The API for options is designed to be as user-friendly as possible thus,
+it assumes that you want to keep the terminal-like behavior, but may want
+to change other options such as using `cwd`. To support this the user-provided
+options are added to the default options, rather than always overwriting them
+(aka. set union). However, if you explicitly specify a a default command such
+as `stdio` then it *will* be overwritten.
+
 Which allows `terminalSpawn` to act like a terminal. However, if you wanted the
 nice argument passing of terminalSpawn, e.g. `'echo "hello world!"` without
 **actually** using the terminal, then you could disable this using `options`.
+
+However, it should be noted that if you pass the option `shell: false` then
+many features such as multiple commands run in series or parallel will not work
+due to reliance on running in a shell.
 
 ### License
 
