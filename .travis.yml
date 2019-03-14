@@ -1,6 +1,9 @@
 os: linux
 dist: xenial
 language: node_js
+# can't set this to production, because we don't want to add all of the
+# testing dependencies
+env: NODE_ENV=development
 node_js:
   - "lts/*"
 cache:

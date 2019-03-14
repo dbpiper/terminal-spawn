@@ -53,9 +53,9 @@
     "url": "git+https://github.com/dbpiper/terminal-spawn.git"
   },
   "scripts": {
-    "build": "gulp build",
-    "lint": "gulp lint",
-    "preCommit": "gulp preCommit",
+    "build": "npx gulp build",
+    "lint": "npx gulp lint",
+    "preCommit": "npx gulp preCommit",
     "prepublishOnly": "npm run build"
   },
   "types": "lib/index.d.ts",
