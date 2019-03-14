@@ -59,5 +59,8 @@
     "prepublishOnly": "npm run build"
   },
   "types": "lib/index.d.ts",
-  "version": "1.1.0"
+  "version": "1.1.0",
+  "dependencies": {
+    "@types/node": "^11.11.3"
+  }
 }
