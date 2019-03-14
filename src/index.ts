@@ -1,8 +1,22 @@
-import { spawn, SpawnOptions } from 'child_process';
+import {
+  ChildProcess,
+  spawn,
+  SpawnOptions,
+  SpawnSyncReturns,
+} from 'child_process';
 
-type Command = string | string[];
+export type SpawnPromiseReturns = SpawnSyncReturns<Buffer>;
+export type Command = string | string[];
+export type TerminalSpawn = (
+  command: Command,
+  options?: SpawnOptions,
+) => ChildProcess;
 
-const spawnWithStringParser = (shellCommand: string) => {
+/* *****************************************************************************
+ * Private Variables
+ **************************************************************************** */
+
+const _spawnWithStringParser = (shellCommand: string) => {
   const shellCommandArray = shellCommand.split(' ');
   return {
     command: shellCommandArray[0],
@@ -10,7 +24,60 @@ const spawnWithStringParser = (shellCommand: string) => {
   };
 };
 
-const terminalSpawn = (
+const _terminalSpawnPromiseWrapper = (
+  command: Command,
+  options: SpawnOptions = {
+    stdio: 'inherit',
+    shell: true,
+  },
+  spawnFunction: TerminalSpawn,
+) =>
+  new Promise<SpawnPromiseReturns>((resolve, _reject) => {
+    const subprocess = spawnFunction(command, options);
+    let stdin = '';
+    let stdout = '';
+    let stderr = '';
+    let error = {
+      name: '',
+      message: '',
+    };
+
+    if (subprocess.stdin) {
+      subprocess.stdin.on('data', (chunk: Buffer) => {
+        stdin += chunk.toString();
+      });
+    }
+
+    if (subprocess.stdout) {
+      subprocess.stdout.on('data', (chunk: Buffer) => {
+        stdout += chunk.toString();
+      });
+    }
+
+    if (subprocess.stderr) {
+      subprocess.stderr.on('data', (chunk: Buffer) => {
+        stderr += chunk.toString();
+      });
+    }
+
+    subprocess.on('error', (err: Error) => {
+      error = err;
+    });
+
+    subprocess.on('close', (code: number, signal: string) => {
+      resolve({
+        error,
+        signal,
+        pid: process.pid,
+        output: [stdin, stdout, stderr],
+        stdout: Buffer.from(stdout),
+        stderr: Buffer.from(stderr),
+        status: code,
+      });
+    });
+  });
+
+const _terminalSpawnProcess: TerminalSpawn = (
   command: Command,
   options: SpawnOptions = {
     stdio: 'inherit',
@@ -23,11 +90,11 @@ const terminalSpawn = (
   } else {
     terminalCommand = command as string;
   }
-  const commandObj = spawnWithStringParser(terminalCommand);
+  const commandObj = _spawnWithStringParser(terminalCommand);
   return spawn(commandObj.command, commandObj.args, options);
 };
 
-const terminalSpawnParallel = (
+const _terminalSpawnParallelProcess: TerminalSpawn = (
   command: Command,
   options: SpawnOptions = {
     stdio: 'inherit',
@@ -41,9 +108,30 @@ const terminalSpawnParallel = (
   } else {
     terminalCommand = command as string;
   }
-  const commandObj = spawnWithStringParser(terminalCommand);
+  const commandObj = _spawnWithStringParser(terminalCommand);
   return spawn(commandObj.command, commandObj.args, options);
 };
+
+/* *****************************************************************************
+ * Public Variables
+ **************************************************************************** */
+
+const terminalSpawn = (
+  command: Command,
+  options: SpawnOptions = {
+    stdio: 'inherit',
+    shell: true,
+  },
+) => _terminalSpawnPromiseWrapper(command, options, _terminalSpawnProcess);
+
+const terminalSpawnParallel = (
+  command: Command,
+  options: SpawnOptions = {
+    stdio: 'inherit',
+    shell: true,
+  },
+) =>
+  _terminalSpawnPromiseWrapper(command, options, _terminalSpawnParallelProcess);
 
 export default terminalSpawn;
 
