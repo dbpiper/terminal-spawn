@@ -7,6 +7,13 @@ describe('terminal-spawn tests', () => {
       expect(subprocess.status).toBe(0);
     });
 
+    test('runs command in other directory and give exit code of zero', async () => {
+      const subprocess = await terminalSpawn('pwd', {
+        cwd: '/home',
+      });
+      expect(subprocess.status).toBe(0);
+    });
+
     test('runs command and gives non-zero exit code', async () => {
       // the shell doesn't have a "blarg" command
       const subprocess = await terminalSpawn('blarg "hello world!"');
