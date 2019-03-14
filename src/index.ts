@@ -16,6 +16,11 @@ export type TerminalSpawn = (
  * Private Variables
  **************************************************************************** */
 
+const _spawnOptions: SpawnOptions = {
+  stdio: 'inherit',
+  shell: true,
+};
+
 const _spawnWithStringParser = (shellCommand: string) => {
   const shellCommandArray = shellCommand.split(' ');
   return {
@@ -26,11 +31,8 @@ const _spawnWithStringParser = (shellCommand: string) => {
 
 const _terminalSpawnPromiseWrapper = (
   command: Command,
-  options: SpawnOptions = {
-    stdio: 'inherit',
-    shell: true,
-  },
   spawnFunction: TerminalSpawn,
+  options?: SpawnOptions,
 ) =>
   new Promise<SpawnPromiseReturns>((resolve, _reject) => {
     const subprocess = spawnFunction(command, options);
@@ -79,10 +81,7 @@ const _terminalSpawnPromiseWrapper = (
 
 const _terminalSpawnProcess: TerminalSpawn = (
   command: Command,
-  options: SpawnOptions = {
-    stdio: 'inherit',
-    shell: true,
-  },
+  options?: SpawnOptions,
 ) => {
   let terminalCommand = '';
   if (Array.isArray(command)) {
@@ -91,15 +90,13 @@ const _terminalSpawnProcess: TerminalSpawn = (
     terminalCommand = command as string;
   }
   const commandObj = _spawnWithStringParser(terminalCommand);
-  return spawn(commandObj.command, commandObj.args, options);
+  const spawnOptions: SpawnOptions = { ..._spawnOptions, ...options };
+  return spawn(commandObj.command, commandObj.args, spawnOptions);
 };
 
 const _terminalSpawnParallelProcess: TerminalSpawn = (
   command: Command,
-  options: SpawnOptions = {
-    stdio: 'inherit',
-    shell: true,
-  },
+  options?: SpawnOptions,
 ) => {
   let terminalCommand = '';
   if (Array.isArray(command)) {
@@ -109,29 +106,19 @@ const _terminalSpawnParallelProcess: TerminalSpawn = (
     terminalCommand = command as string;
   }
   const commandObj = _spawnWithStringParser(terminalCommand);
-  return spawn(commandObj.command, commandObj.args, options);
+  const spawnOptions: SpawnOptions = { ..._spawnOptions, ...options };
+  return spawn(commandObj.command, commandObj.args, spawnOptions);
 };
 
 /* *****************************************************************************
  * Public Variables
  **************************************************************************** */
 
-const terminalSpawn = (
-  command: Command,
-  options: SpawnOptions = {
-    stdio: 'inherit',
-    shell: true,
-  },
-) => _terminalSpawnPromiseWrapper(command, options, _terminalSpawnProcess);
+const terminalSpawn = (command: Command, options?: SpawnOptions) =>
+  _terminalSpawnPromiseWrapper(command, _terminalSpawnProcess, options);
 
-const terminalSpawnParallel = (
-  command: Command,
-  options: SpawnOptions = {
-    stdio: 'inherit',
-    shell: true,
-  },
-) =>
-  _terminalSpawnPromiseWrapper(command, options, _terminalSpawnParallelProcess);
+const terminalSpawnParallel = (command: Command, options?: SpawnOptions) =>
+  _terminalSpawnPromiseWrapper(command, _terminalSpawnParallelProcess, options);
 
 export default terminalSpawn;
 
