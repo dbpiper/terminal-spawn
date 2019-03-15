@@ -28,8 +28,7 @@
     "typescript-tslint-plugin": "^0.3.1"
   },
   "files": [
-    "lib/index.js",
-    "lib/index.d.ts"
+    "lib"
   ],
   "homepage": "https://github.com/dbpiper/terminal-spawn#readme",
   "husky": {
