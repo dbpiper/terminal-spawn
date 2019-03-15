@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2019-03-15
+
+### Fixed
+
+- Resolved some design issues with [2.0.0], namely the fact that it lacked
+  the ability to close processes that don't close on their own. The API
+  now returns _both_ the reference to the process, which can be killed, and
+  the promise added in [2.0.0]. This means that you can now kill the process with
+  its respective object, and then await the promise and check its signal to ensure
+  termination.
+
 ## [2.0.0] - 2019-03-14
 
 ### Changed
@@ -41,7 +52,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Created the basic project, which allows spawning of terminal commands.
 
-[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/2.0.0...HEAD
+[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/2.0.1...HEAD
+[2.0.1]: https://github.com/dbpiper/terminal-spawn/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/dbpiper/terminal-spawn/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/dbpiper/terminal-spawn/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/dbpiper/terminal-spawn/compare/1.0.0...1.0.1

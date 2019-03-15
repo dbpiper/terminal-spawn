@@ -1,7 +1,7 @@
 import { parallel, series } from 'gulp';
 import terminalSpawn from './src';
 
-const checkTypes = () => terminalSpawn('npx tsc -p "./tsconfig.json"');
+const checkTypes = () => terminalSpawn('npx tsc -p "./tsconfig.json"').promise;
 
 const lintTS = () => {
   const rootFiles = '"./*.ts?(x)"';
@@ -10,27 +10,28 @@ const lintTS = () => {
   const tsconfig = '--project tsconfig.json';
   return terminalSpawn(
     `npx tslint ${rootFiles} ${srcFiles} ${configFiles} ${tsconfig}`,
-  );
+  ).promise;
 };
 
 const lint = lintTS;
 
-const test = () => terminalSpawn('npx jest');
+const test = () => terminalSpawn('npx jest').promise;
 
 const staticCheck = series(lint, checkTypes);
 
 const staticCheckAndTest = series(staticCheck, test);
 
 const buildJs = () =>
-  terminalSpawn(`npx babel src --out-dir lib --extensions ".ts"`);
+  terminalSpawn(`npx babel src --out-dir lib --extensions ".ts"`).promise;
 
-const buildTypes = () => terminalSpawn('npx tsc');
+const buildTypes = () => terminalSpawn('npx tsc').promise;
 
 const build = parallel(buildJs, buildTypes);
 
-const gitStatus = () => terminalSpawn('npx git status');
+const gitStatus = () => terminalSpawn('npx git status').promise;
 
-const sleep = (seconds: number = 0) => terminalSpawn(`sleep ${seconds}`);
+const sleep = (seconds: number = 0) =>
+  terminalSpawn(`sleep ${seconds}`).promise;
 
 const sleepForReview = () => {
   // giving 4 seconds to review the git commit status
