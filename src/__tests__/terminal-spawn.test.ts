@@ -1,4 +1,5 @@
-import terminalSpawn, { terminalSpawnParallel } from '../index';
+// tslint:disable-next-line: no-implicit-dependencies
+import terminalSpawn, { terminalSpawnParallel } from 'terminal-spawn';
 
 describe('terminal-spawn tests', () => {
   describe('single command tests', () => {
@@ -20,7 +21,7 @@ describe('terminal-spawn tests', () => {
       await new Promise((resolve, _reject) =>
         setTimeout(() => {
           resolve();
-        }, timeToWait),
+        }, timeToWait)
       );
       subprocessSpawn.process.kill();
       const subprocess = await subprocessSpawn.promise;
