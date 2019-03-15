@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.2] - 2019-03-15
+
+### Fixed
+
+- Include missing util files which were accidentally not included in the package
+  due to the `files` field being too strict.
+
 ## [2.0.1] - 2019-03-15
 
 ### Fixed
@@ -52,7 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Created the basic project, which allows spawning of terminal commands.
 
-[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/2.0.1...HEAD
+[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/2.0.2...HEAD
+[2.0.2]: https://github.com/dbpiper/terminal-spawn/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/dbpiper/terminal-spawn/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/dbpiper/terminal-spawn/compare/1.1.0...2.0.0
 [1.1.0]: https://github.com/dbpiper/terminal-spawn/compare/1.0.1...1.1.0
