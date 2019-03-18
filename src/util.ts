@@ -35,7 +35,7 @@ const _spawnWithStringParser = (shellCommand: string) => {
 const terminalSpawnPromiseWrapper = (
   subprocess: ChildProcess,
 ): SpawnPromiseReturns =>
-  new Promise<SpawnSyncReturns<Buffer>>((resolve, _reject) => {
+  new Promise<SpawnSyncReturns<Buffer>>((resolve, reject) => {
     let stdin = '';
     let stdout = '';
     let stderr = '';
@@ -67,7 +67,7 @@ const terminalSpawnPromiseWrapper = (
     });
 
     subprocess.on('close', (code: number, signal: string) => {
-      resolve({
+      const returnObject = {
         error,
         signal,
         pid: process.pid,
@@ -75,7 +75,17 @@ const terminalSpawnPromiseWrapper = (
         stdout: Buffer.from(stdout),
         stderr: Buffer.from(stderr),
         status: code,
-      });
+      };
+
+      const exitedSuccessfully =
+        returnObject.status === 0 && returnObject.signal === null;
+      const killed =
+        returnObject.status === null && returnObject.signal !== null;
+      if (exitedSuccessfully || killed) {
+        resolve(returnObject);
+      } else {
+        reject(new Error('process terminated abnormally, with a non-zero exit code!'));
+      }
     });
   });
 

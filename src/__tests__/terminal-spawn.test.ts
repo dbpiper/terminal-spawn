@@ -21,7 +21,7 @@ describe('terminal-spawn tests', () => {
       await new Promise((resolve, _reject) =>
         setTimeout(() => {
           resolve();
-        }, timeToWait)
+        }, timeToWait),
       );
       subprocessSpawn.process.kill();
       const subprocess = await subprocessSpawn.promise;
@@ -36,9 +36,13 @@ describe('terminal-spawn tests', () => {
     });
 
     test('runs command and gives non-zero exit code', async () => {
-      // the shell doesn't have a "blarg" command
-      const subprocess = await terminalSpawn('blarg "hello world!"').promise;
-      expect(subprocess.status).not.toBe(0);
+      try {
+        // the shell doesn't have a "blarg" command
+        await terminalSpawn('blarg "hello world!"').promise;
+      } catch (err) {
+        const error = err as Error;
+        expect(error.message.length).toBeGreaterThan(0);
+      }
     });
   });
 
