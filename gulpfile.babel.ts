@@ -1,6 +1,15 @@
 import { parallel, series } from 'gulp';
 import terminalSpawn from './src';
 
+const _runTest = () => terminalSpawn('npx jest').promise;
+
+const buildJs = () =>
+  terminalSpawn(`npx babel src --out-dir lib --extensions ".ts"`).promise;
+
+const buildTypes = () => terminalSpawn('npx tsc').promise;
+
+const build = parallel(buildJs, buildTypes);
+
 const checkTypes = () => terminalSpawn('npx tsc -p "./tsconfig.json"').promise;
 
 const lintTS = () => {
@@ -15,18 +24,11 @@ const lintTS = () => {
 
 const lint = lintTS;
 
-const test = () => terminalSpawn('npx jest').promise;
+const test = series(build, _runTest);
 
 const staticCheck = series(lint, checkTypes);
 
 const staticCheckAndTest = series(staticCheck, test);
-
-const buildJs = () =>
-  terminalSpawn(`npx babel src --out-dir lib --extensions ".ts"`).promise;
-
-const buildTypes = () => terminalSpawn('npx tsc').promise;
-
-const build = parallel(buildJs, buildTypes);
 
 const gitStatus = () => terminalSpawn('npx git status').promise;
 

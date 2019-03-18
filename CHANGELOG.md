@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3] - 2019-03-18
+
+### Fixed
+
+- Promise now rejects when the process terminates abnormally; with a non-zero
+  exit code. Previously it simply resolved with the normal object, but having
+  a non-zero status code. This caused tools such as gulp to think that the process
+  was successful when it wasn't. As a result it would not fail builds correctly!
+
 ## [2.0.2] - 2019-03-15
 
 ### Fixed
@@ -59,7 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Created the basic project, which allows spawning of terminal commands.
 
-[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/2.0.2...HEAD
+[unreleased]: https://github.com/dbpiper/terminal-spawn/compare/v2.0.3...HEAD
+[2.0.3]: https://github.com/dbpiper/terminal-spawn/compare/2.0.2...v2.0.3
 [2.0.2]: https://github.com/dbpiper/terminal-spawn/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/dbpiper/terminal-spawn/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/dbpiper/terminal-spawn/compare/1.1.0...2.0.0
